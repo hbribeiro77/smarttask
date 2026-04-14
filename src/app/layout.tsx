@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { SmarttaskNextAuthSessionProviderClientWrapper } from "@/components/smarttask-next-auth-session-provider-client-wrapper";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,9 +39,11 @@ export default function RootLayout({
         >
           Ir para o conteúdo
         </a>
-        <div id="conteudo-principal" className="flex flex-1 flex-col">
-          {children}
-        </div>
+        <SmarttaskNextAuthSessionProviderClientWrapper>
+          <div id="conteudo-principal" className="flex flex-1 flex-col">
+            {children}
+          </div>
+        </SmarttaskNextAuthSessionProviderClientWrapper>
         <Toaster richColors position="top-center" />
       </body>
     </html>

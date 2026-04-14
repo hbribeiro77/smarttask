@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SmarttaskAuthSignOutToolbarButtonClient } from "@/components/smarttask-auth-sign-out-toolbar-button-client";
 import { SmarttaskBaseUiTooltipProviderRootTriggerPopupComposition } from "@/components/ui/smarttask-base-ui-tooltip-provider-root-trigger-popup-composition";
 import { SMARTTASK_FOCUS_DAY_MAX_USER_SELECTABLE_CAP } from "@/lib/smarttask-app-settings-v1-model-and-defaults";
 import { cn } from "@/lib/utils";
@@ -93,6 +94,7 @@ export function SmarttaskJsonBackupExportImportToolbar() {
       </div>
 
       <div className="flex flex-wrap items-center gap-1.5 sm:shrink-0">
+        <SmarttaskAuthSignOutToolbarButtonClient />
         <SmarttaskBaseUiTooltipProviderRootTriggerPopupComposition
           aria-label={FOCUS_MAX_HELP}
           side="top"
