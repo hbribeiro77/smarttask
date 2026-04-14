@@ -34,16 +34,10 @@ O projeto usa **Next.js 16**, que exige **Node.js ≥ 20.9.0**. O Nixpacks costu
 
 Na raiz do repo existem **`nixpacks.toml`** (`NIXPACKS_NODE_VERSION = "20"`), **`.nvmrc`** e **`engines.node`** no `package.json` para forçar Node 20 no build. Se o painel permitir, defina também a variável de ambiente **`NIXPACKS_NODE_VERSION=20`** no serviço.
 
-## Login Google (acesso restrito)
+## Senha de acesso (VPS / instância fechada)
 
-Com **`AUTH_GOOGLE_ID`** e **`AUTH_GOOGLE_SECRET`** definidos (e **`AUTH_SECRET`**), o app exige login Google e só libera e-mails em **`AUTH_ALLOWED_EMAILS`** (lista separada por vírgula, comparação em minúsculas).
+Com **`SMARTTASK_ACCESS_PASSWORD`** definida (não vazia), o app exige login em **`/login`**, grava um cookie **httpOnly** assinado e renova a sessão a cada request válido (**30 dias** deslizantes).
 
-Também defina **`AUTH_URL`** com a URL pública do app (ex.: `https://seu-subdominio.com`), para o OAuth e cookies funcionarem atrás do proxy.
+Recomenda-se também **`SMARTTASK_SESSION_SECRET`** (string longa aleatória) só para assinar o cookie; se omitida, usa a própria senha de acesso (menos ideal).
 
-No [Google Cloud Console](https://console.cloud.google.com/) crie credenciais OAuth 2.0 (tipo *Web*) e em **URIs de redirecionamento autorizados** inclua:
-
-`{AUTH_URL}/api/auth/callback/google`
-
-(Se `AUTH_URL` tiver barra final, evite duplicar; o padrão do NextAuth é `/api/auth/callback/google`.)
-
-Sem `AUTH_GOOGLE_*`, o app permanece **aberto** (útil no desenvolvimento local). Ver **`.env.example`**.
+Sem **`SMARTTASK_ACCESS_PASSWORD`**, o app fica **aberto** (bom para desenvolvimento local). Detalhes em **`.env.example`**.

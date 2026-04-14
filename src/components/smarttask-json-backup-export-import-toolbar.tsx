@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SmarttaskAuthSignOutToolbarButtonClient } from "@/components/smarttask-auth-sign-out-toolbar-button-client";
+import { SmarttaskPasswordAuthSignOutToolbarButtonClient } from "@/components/smarttask-password-auth-sign-out-toolbar-button-client";
 import { SmarttaskBaseUiTooltipProviderRootTriggerPopupComposition } from "@/components/ui/smarttask-base-ui-tooltip-provider-root-trigger-popup-composition";
 import { SMARTTASK_FOCUS_DAY_MAX_USER_SELECTABLE_CAP } from "@/lib/smarttask-app-settings-v1-model-and-defaults";
 import { cn } from "@/lib/utils";
@@ -25,7 +25,11 @@ const FOCUS_MAX_HELP =
   String(SMARTTASK_FOCUS_DAY_MAX_USER_SELECTABLE_CAP) +
   "). Você marca o foco no detalhe de cada tarefa. Na primeira visita, o número inicial segue o padrão do ambiente (variável NEXT_PUBLIC_FOCUS_DAY_MAX), se existir.";
 
-export function SmarttaskJsonBackupExportImportToolbar() {
+export function SmarttaskJsonBackupExportImportToolbar({
+  passwordAuthEnabled = false,
+}: {
+  passwordAuthEnabled?: boolean;
+}) {
   const hydrated = useSmartTaskStore((s) => s.hydrated);
   const focusDayMax = useSmartTaskStore((s) => s.focusDayMax);
   const setFocusDayMax = useSmartTaskStore((s) => s.setFocusDayMax);
@@ -94,7 +98,7 @@ export function SmarttaskJsonBackupExportImportToolbar() {
       </div>
 
       <div className="flex flex-wrap items-center gap-1.5 sm:shrink-0">
-        <SmarttaskAuthSignOutToolbarButtonClient />
+        {passwordAuthEnabled ? <SmarttaskPasswordAuthSignOutToolbarButtonClient /> : null}
         <SmarttaskBaseUiTooltipProviderRootTriggerPopupComposition
           aria-label={FOCUS_MAX_HELP}
           side="top"

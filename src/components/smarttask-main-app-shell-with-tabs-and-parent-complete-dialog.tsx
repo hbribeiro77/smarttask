@@ -36,7 +36,11 @@ function EmptyState({ icon: Icon, title, description }: { icon: React.ElementTyp
   );
 }
 
-export function SmarttaskMainAppShellWithTabsAndParentCompleteDialog() {
+export function SmarttaskMainAppShellWithTabsAndParentCompleteDialog({
+  passwordAuthEnabled = false,
+}: {
+  passwordAuthEnabled?: boolean;
+}) {
   const hydrated = useSmartTaskStore((s) => s.hydrated);
   const tasks = useSmartTaskStore((s) => s.tasks);
   const addTaskFromRawInput = useSmartTaskStore((s) => s.addTaskFromRawInput);
@@ -112,7 +116,7 @@ export function SmarttaskMainAppShellWithTabsAndParentCompleteDialog() {
             aria-label="Backup JSON e limite do Foco do Dia"
             className="border-b border-border/60 pb-5"
           >
-            <SmarttaskJsonBackupExportImportToolbar />
+            <SmarttaskJsonBackupExportImportToolbar passwordAuthEnabled={passwordAuthEnabled} />
           </section>
 
           <section aria-label="Nova tarefa" className="space-y-2">

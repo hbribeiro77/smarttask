@@ -1,9 +1,23 @@
+import { Suspense } from "react";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { isSmarttaskGoogleOAuthEnabledFromEnvironment } from "@/lib/smarttask-parse-auth-allowed-emails-from-environment-comma-separated-string";
-import { SmarttaskLoginPageGoogleOauthSignInButtonClient } from "@/components/smarttask-login-page-google-oauth-sign-in-button-client";
+import { isSmarttaskPasswordAuthEnabledFromEnvironment } from "@/lib/smarttask-password-auth-is-enabled-from-environment";
+import { resolveSmarttaskPasswordAuthSessionSigningSecretFromEnvironment } from "@/lib/smarttask-password-auth-resolve-session-signing-secret-from-environment";
+import {
+  SMARTTASK_SESSION_COOKIE_NAME,
+  verifySmarttaskPasswordAuthSignedSessionToken,
+} from "@/lib/smarttask-password-auth-signed-session-token-webcrypto-hmac-sha256";
+import { SmarttaskPasswordAuthLoginFormClient } from "@/components/smarttask-password-auth-login-form-client";
 
-export default function SmarttaskLoginRoutePage() {
-  if (!isSmarttaskGoogleOAuthEnabledFromEnvironment()) {
+export default async function SmarttaskLoginRoutePage() {
+  if (!isSmarttaskPasswordAuthEnabledFromEnvironment()) {
+    redirect("/");
+  }
+
+  const cookie = (await cookies()).get(SMARTTASK_SESSION_COOKIE_NAME)?.value;
+  const secret = resolveSmarttaskPasswordAuthSessionSigningSecretFromEnvironment();
+  const session = await verifySmarttaskPasswordAuthSignedSessionToken(cookie, secret);
+  if (session.ok) {
     redirect("/");
   }
 
@@ -13,12 +27,13 @@ export default function SmarttaskLoginRoutePage() {
         <div className="space-y-2 text-center">
           <h1 className="font-heading text-2xl font-semibold tracking-tight">SmartTask</h1>
           <p className="text-sm text-muted-foreground text-pretty">
-            Acesso restrito. Entre com a conta Google autorizada para continuar.
+            Esta instância exige senha de acesso. A sessão dura 30 dias e renova automaticamente
+            enquanto você usa o app.
           </p>
         </div>
-        <div className="flex justify-center">
-          <SmarttaskLoginPageGoogleOauthSignInButtonClient />
-        </div>
+        <Suspense fallback={<p className="text-center text-sm text-muted-foreground">Carregando…</p>}>
+          <SmarttaskPasswordAuthLoginFormClient />
+        </Suspense>
       </div>
     </div>
   );
