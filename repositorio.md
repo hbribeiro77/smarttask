@@ -27,3 +27,9 @@ git push
 ## Autenticação no GitHub
 
 No Windows, o GitHub costuma pedir **Personal Access Token (PAT)** em vez de senha ao usar HTTPS, ou use o **GitHub CLI** (`gh auth login`) / **Git Credential Manager**.
+
+## Deploy (Nixpacks / EasyPanel / VPS)
+
+O projeto usa **Next.js 16**, que exige **Node.js ≥ 20.9.0**. O Nixpacks costuma subir **Node 18** se nada for declarado.
+
+Na raiz do repo existem **`nixpacks.toml`** (`NIXPACKS_NODE_VERSION = "20"`), **`.nvmrc`** e **`engines.node`** no `package.json` para forçar Node 20 no build. Se o painel permitir, defina também a variável de ambiente **`NIXPACKS_NODE_VERSION=20`** no serviço.
