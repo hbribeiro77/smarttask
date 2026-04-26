@@ -1,0 +1,17 @@
+.git
+.gitignore
+.next
+node_modules
+npm-debug.log
+Dockerfile*
+docker-compose*
+README.md
+*.md
+.env
+.env.*
+coverage
+dist
+tmp
+.DS_Store
+*.swp
+*.swo
